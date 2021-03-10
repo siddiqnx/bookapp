@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  
+  <servlet>
+    <servlet-name>BookApp</servlet-name>
+    <servlet-class>bookapp.controller.BookApp</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BookApp</servlet-name>
+    <url-pattern>/bookapp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>BookList</servlet-name>
+    <servlet-class>bookapp.controller.BookList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BookList</servlet-name>
+    <url-pattern>/books</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AddBook</servlet-name>
+    <servlet-class>bookapp.controller.BookAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddBook</servlet-name>
+    <url-pattern>/books/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteBook</servlet-name>
+    <servlet-class>bookapp.controller.BookDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteBook</servlet-name>
+    <url-pattern>/books/delete</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SearchBook</servlet-name>
+    <servlet-class>bookapp.controller.BookSearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchBook</servlet-name>
+    <url-pattern>/books/search</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Signup</servlet-name>
+    <servlet-class>bookapp.controller.Signup</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Signup</servlet-name>
+    <url-pattern>/signup</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>bookapp.controller.Login</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>bookapp.controller.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AddFavorite</servlet-name>
+    <servlet-class>bookapp.controller.FavoriteAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddFavorite</servlet-name>
+    <url-pattern>/favorites/add</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DeleteFavorite</servlet-name>
+    <servlet-class>bookapp.controller.FavoriteDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteFavorite</servlet-name>
+    <url-pattern>/favorites/delete</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
