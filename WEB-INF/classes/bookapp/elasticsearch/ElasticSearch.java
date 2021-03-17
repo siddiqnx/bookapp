@@ -4,10 +4,11 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.action.index.*;
 import org.elasticsearch.action.search.*;
 import org.elasticsearch.client.*;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.*;
+import org.elasticsearch.index.reindex.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,7 +29,8 @@ public class ElasticSearch {
   }
   
   private void setClient() {
-    RestClientBuilder builder = RestClient.builder(new HttpHost(Config.ES_HOST, Config.ES_PORT, "http"));
+    RestClientBuilder builder = 
+      RestClient.builder(new HttpHost(Config.ES_HOST, Config.ES_PORT, "http"));
     client = new RestHighLevelClient(builder);    
   }
 
@@ -58,16 +60,16 @@ public class ElasticSearch {
   }
 
   public List<Integer> searchKeywordInSummary(String keyword) {
-    SearchRequest searchRequest = new SearchRequest(ES_BOOKS_INDEX);
+    SearchRequest request = new SearchRequest(ES_BOOKS_INDEX);
     SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
     searchSourceBuilder.query(QueryBuilders.matchQuery("summary", keyword));
 
     searchSourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
 
-    searchRequest.source(searchSourceBuilder);
+    request.source(searchSourceBuilder);
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+      SearchResponse searchResponse = client.search(request, RequestOptions.DEFAULT);
 
       SearchHit[] searchHits = searchResponse.getHits().getHits();
 
@@ -82,7 +84,24 @@ public class ElasticSearch {
     } finally {
       closeClient();
     }
-    
+
     return null;
+  }
+  
+  public void deleteBook(Integer bookId) {
+    DeleteByQueryRequest request =
+      new DeleteByQueryRequest(ES_BOOKS_INDEX);
+      
+    request.setConflicts("proceed");
+    
+    request.setQuery(new TermQueryBuilder("id", bookId));
+    
+    request.setMaxDocs(1);
+
+    try {
+      client.deleteByQuery(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

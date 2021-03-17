@@ -45,12 +45,16 @@ public class BookSearch extends HttpServlet {
       genre
     );
 
-    List<Integer> bookIdsMatchingKeywords = es.searchKeywordInSummary(keywords);
+    if(!keywords.isEmpty()) {
+      List<Integer> bookIdsMatchingKeywords = es.searchKeywordInSummary(keywords);
 
-    searchResult = searchResult
-                    .stream()
-                    .filter(book -> bookIdsMatchingKeywords.contains(book.id))
-                    .collect(Collectors.toList());
+      if(bookIdsMatchingKeywords.size() > 0) {
+        searchResult = searchResult
+                      .stream()
+                      .filter(book -> bookIdsMatchingKeywords.contains(book.id))
+                      .collect(Collectors.toList());
+      }
+    }
 
     request.setAttribute("bookList", searchResult);
 		request.getRequestDispatcher("/bookapp").forward(request, response);
