@@ -71,13 +71,14 @@ public class FavoriteDB extends DB {
       while(result.next()) {
         int id = result.getInt("id");
         String title = result.getString("title");
+        String summary = result.getString("summary");
         String author = result.getString("author");
         String publisher = result.getString("publisher");
         int publishedDate = result.getInt("published_date");
         String genre = result.getString("genre");
         boolean isFavorite = true;
 
-        Book book = new Book(id, title, author, publisher, publishedDate, genre, isFavorite);
+        Book book = new Book(id, title, summary, author, publisher, publishedDate, genre, isFavorite);
         bookList.add(book);
       }
      

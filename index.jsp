@@ -13,6 +13,7 @@
   String sPublisher = request.getParameter("publisher") != null ? request.getParameter("publisher") : "";
   String sPublishedDate = request.getParameter("published_date") != null ? request.getParameter("published_date") : "";
   String sGenre = request.getParameter("genre") != null ? request.getParameter("genre") : "";
+  String sKeywords = request.getParameter("keywords") != null ? request.getParameter("keywords") : "";
 %>
 
 <!DOCTYPE html>
@@ -54,6 +55,13 @@
                   <div class="input-field col s12">
                     <input name="title" id="title" type="text" class="validate">
                     <label for="title">Title</label>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea name="summary" id="summary" class="materialize-textarea"></textarea>
+                    <label for="summary">Summary</label>
                   </div>
                 </div>
         
@@ -107,12 +115,17 @@
                 <form id="search-book" class="col s12" action="${path}/books/search" method="GET">
 
                   <div class="row valign-wrapper">
-                    <div class="valign input-field col s3">
+                    <div class="valign input-field col s2">
                       <input value="<%= sTitle %>" name="title" id="s-title" type="text" class="validate">
                       <label for="s-title">Title</label>
                     </div>
+                    
+                    <div class="valign input-field col s2">
+                      <input value="<%= sKeywords %>" name="keywords" id="s-keywords" type="text" class="validate">
+                      <label for="s-keywords">Keyword</label>
+                    </div>
 
-                    <div class="valign input-field col s3">
+                    <div class="valign input-field col s2">
                       <input value="<%= sAuthor %>" name="author" id="s-author" type="text" class="validate">
                       <label for="s-author">Author</label>
                     </div>
@@ -143,7 +156,7 @@
               </div>
               
               <div class="row">
-                 <table id="books-table" class="col s12">
+                <table id="books-table" class="col s12">
                   <thead>
                     <tr>
                         <th><a href="${path}/books?sortby=title&order=<%= order %>">Title</a></th>
@@ -156,21 +169,21 @@
 
                   <tbody>
                     <c:forEach items="${books}" var ="book">
-                      <tr>
-                        <td>${book.title}</td>
+                      <tr id="${book.id}">
+                        <td class='title'>${book.title}</td>
+                        <td class='summary hide'>${book.summary}</td>
                         <td>${book.author}</td>
                         <td>${book.publisher}</td>
                         <td>${book.publishedDate}</td>
                         <td>${book.genre}</td>
                         <c:if test="${role == 'admin'}">
-                          <td><a href="${path}/books/delete?id=${book.id}"><img class="delete-icon" src="${path}/images/delete_icon.svg" ></a></td>
+                          <td><a class='no-propagation' href="${path}/books/delete?id=${book.id}"><img class="delete-icon" src="${path}/images/delete_icon.svg" ></a></td>
                         </c:if>
                         <td>
 
-                          
                           <c:choose>
                             <c:when test="${book.isFavorite}">
-                              <a href="${path}/favorites/delete?bookId=${book.id}">
+                              <a class='no-propagation' href="${path}/favorites/delete?bookId=${book.id}">
                                 <img
                                   class="favorite-icon"
                                   src="${path}/images/favorite_filled.svg"
@@ -178,7 +191,7 @@
                               </a>
                             </c:when>
                             <c:otherwise>
-                              <a href="${path}/favorites/add?bookId=${book.id}">
+                              <a class='no-propagation' href="${path}/favorites/add?bookId=${book.id}">
                                 <img
                                   class="favorite-icon"
                                   src="${path}/images/favorite_outline.svg"
@@ -190,10 +203,11 @@
 
                         </td>
                       </tr>
-                      </tr>
+
                     </c:forEach>
                   </tbody>
                 </table>
+
               </div>
             </div>
 
@@ -258,14 +272,54 @@
       </div>
     </div>
     
+    <div id="summary-modal" class="modal">
+      <div class="modal-content">
+        <h5 class='modal-title'>Book Title</h5>
+        <p class='modal-summary'>Book Summary</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">Close</a>
+      </div>
+    </div>
+    
     <script src="${path}/js/materialize.min.js"></script>
     <script defer>
-      const el = document.querySelector('.tabs');
-      const options = {
-        duration: 300
-      };
       
-      M.Tabs.init(el, options);
+      document.addEventListener('DOMContentLoaded', function() {
+        const tabEl = document.querySelector('.tabs');
+        const bookTable = document.querySelector('#books-table');
+        
+        const summaryModal = document.querySelector('#summary-modal');
+        
+        M.Tabs.init(tabEl, {duration: 300});
+        M.Modal.init(summaryModal);
+        
+        const modal = M.Modal.getInstance(summaryModal);
+        
+        bookTable.addEventListener('click', (e) => {
+          const target = e.target.closest('tr');
+          const bookTitle = target.querySelector('.title').textContent;
+          const bookSummary = target.querySelector('.summary').textContent;
+          
+          const modalHeaderEl = summaryModal.querySelector('.modal-title');
+          const modalContentEl = summaryModal.querySelector('.modal-summary');
+          
+          console.log(modalHeaderEl);
+          
+          modalHeaderEl.innerText = 'Summary for ' + bookTitle;
+          modalContentEl.innerText = bookSummary;
+          
+          modal.open();
+        });
+        
+        const noPropagationLinks = [...document.querySelectorAll(".no-propagation")];
+        
+        noPropagationLinks.forEach(link => link.addEventListener("click", (e) => {
+          e.stopPropagation();
+        }));
+
+      });
+
     </script>
 
   </body>

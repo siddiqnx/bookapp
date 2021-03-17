@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import bookapp.database.BookDB;
 import bookapp.bean.Book;
 
+import bookapp.elasticsearch.ElasticSearch;
+
 public class BookAdd extends HttpServlet {
   protected void doPost(
     HttpServletRequest request,
@@ -19,6 +21,7 @@ public class BookAdd extends HttpServlet {
     BookDB db = new BookDB();
 
     String title = request.getParameter("title");
+    String summary = request.getParameter("summary");
     String author = request.getParameter("author");
     String publisher = request.getParameter("publisher");
     Integer publishedDate = request.getParameter("published_date").isEmpty() ? 0 : Integer.parseInt(request.getParameter("published_date"));
@@ -27,6 +30,7 @@ public class BookAdd extends HttpServlet {
 
     Book newBook = new Book(
       title,
+      summary,
       author,
       publisher,
       publishedDate,
@@ -34,7 +38,12 @@ public class BookAdd extends HttpServlet {
       isFavorite
     );
 
-    db.addBook(newBook);
+    Integer bookId = db.addBook(newBook);
+    
+    if(bookId != -1) {
+      ElasticSearch es = new ElasticSearch();
+      es.indexBook(bookId, summary);
+    }
 
 		response.sendRedirect(request.getContextPath() + "/books");
 	}

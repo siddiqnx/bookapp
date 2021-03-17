@@ -3,6 +3,7 @@ package bookapp.bean;
 public class Book {
   public int id;
   public String title;
+  public String summary;
   public String author;
   public String publisher;
   public int publishedDate;
@@ -12,6 +13,7 @@ public class Book {
   public Book(
     int id,
     String title,
+    String summary,
     String author,
     String publisher,
     int publishedDate,
@@ -19,6 +21,7 @@ public class Book {
     boolean isFavorite
   ) {
     this.id = id;
+    this.summary = summary;
     this.title = title;
     this.author = author;
     this.publisher = publisher;
@@ -28,6 +31,7 @@ public class Book {
   }
   public Book(
     String title,
+    String summary,
     String author,
     String publisher,
     int publishedDate,
@@ -35,6 +39,7 @@ public class Book {
     boolean isFavorite
   ) {
     this.title = title;
+    this.summary = summary;
     this.author = author;
     this.publisher = publisher;
     this.publishedDate = publishedDate;
@@ -49,6 +54,7 @@ public class Book {
   public void setId(int id) {
     this.id = id;
   }
+  
   public String getTitle() {
     return title;
   }
@@ -57,6 +63,14 @@ public class Book {
     this.title = title;
   }
   
+  public String getSummary() {
+    return summary;
+  }
+
+  public void setSummary(String summary) {
+    this.summary = summary;
+  }
+
   public String getAuthor() {
     return author;
   }

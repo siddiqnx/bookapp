@@ -30,7 +30,8 @@ public class DBQueries {
       Config.DB_BOOK_TABLE + " " +
       "(" + bookFields + ")" +
       "VALUES " +
-      "('" + bookValues + "')";      
+      "('" + bookValues + "') " +
+      "RETURNING id";      
 
     return query;
   }
@@ -51,6 +52,16 @@ public class DBQueries {
     return query;
   }
 
+  public static String GET_ALL_BOOKS_SORTED(Integer userId, String field, String order) {
+    String query = 
+      COMBINE_BOOKS_AND_FAVORITES(userId) + " " +
+      "ORDER BY " +
+      field + " " +
+      order;
+
+    return query;
+  }
+
   public static String SEARCH_BOOKS(
     int userId,
     String title,
@@ -65,34 +76,27 @@ public class DBQueries {
     List<String> conditions = new ArrayList<String>();
 
     if(!title.isEmpty()) {
-      conditions.add("title = '" + title + "'");
+      conditions.add("title='" + title + "'");
     }
     if(!author.isEmpty()) {
-      conditions.add("author = '" + author + "'");
+      conditions.add("author='" + author + "'");
     }
     if(!publisher.isEmpty()) {
-      conditions.add("publisher = '" + publisher + "'");
+      conditions.add("publisher='" + publisher + "'");
     }
     if(publishedDate != 0) {
-      conditions.add("published_date = " + publishedDate);
+      conditions.add("published_date=" + publishedDate);
     }
     if(!genre.isEmpty()) {
-      conditions.add("genre = '" + genre + "'");
+      conditions.add("genre ='" + genre + "'");
     }
+    
+    if(conditions.size() > 0) {
+      String conditionsString =
+        conditions.stream().collect(Collectors.joining(" AND ", " WHERE ", ""));
 
-    String conditionsString =
-      conditions.stream().collect(Collectors.joining(" AND ", " AND ", ""));
-
-    query += conditionsString;
-    return query;
-  }
-
-  public static String GET_ALL_BOOKS_SORTED(Integer userId, String field, String order) {
-    String query = 
-      COMBINE_BOOKS_AND_FAVORITES(userId) + " " +
-      "ORDER BY " +
-      field + " " +
-      order;
+      query += conditionsString;
+    }
 
     return query;
   }

@@ -33,6 +33,9 @@ public class Signup extends HttpServlet {
     boolean isUserAdded = db.addUser(newUser);
 
 		if(isUserAdded) {
+      HttpSession session = request.getSession();
+      session.setAttribute("name", newUser.name);
+      session.setAttribute("role", newUser.role);
       response.sendRedirect(request.getContextPath() + "/books");
       return;
     }

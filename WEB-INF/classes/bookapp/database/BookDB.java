@@ -14,6 +14,7 @@ public class BookDB extends DB {
 
   public static List<String> BOOK_FIELDS = Arrays.asList(
     "title",
+    "summary",
     "author",
     "publisher",
     "published_date",
@@ -22,10 +23,11 @@ public class BookDB extends DB {
   public static String ASC = "ASC";
   public static String DESC = "DESC";
 
-  public boolean addBook(Book book) {
+  public Integer addBook(Book book) {
     
     String query = DBQueries.ADD_BOOK(
       book.title,
+      book.summary,
       book.author,
       book.publisher,
       String.valueOf(book.publishedDate),
@@ -34,10 +36,10 @@ public class BookDB extends DB {
 
     try {
       Statement statement = connection.createStatement();
-      int rows = statement.executeUpdate(query);
+      ResultSet result = statement.executeQuery(query);
 
-      if(rows <= 0) {
-        return false;
+      if(result.next()) {
+        return result.getInt(1);
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -45,7 +47,7 @@ public class BookDB extends DB {
       closeConnection();
     }
 
-    return true;
+    return -1;
   }
 
   public boolean removeBook(Integer id) {
@@ -61,9 +63,10 @@ public class BookDB extends DB {
 
     } catch(SQLException e) {
       e.printStackTrace();
+    } finally {
+      closeConnection();
     }
-    
-    closeConnection();
+
     return true;
   }
 
@@ -79,13 +82,14 @@ public class BookDB extends DB {
       while(result.next()) {
         int id = result.getInt("id");
         String title = result.getString("title");
+        String summary = result.getString("summary");
         String author = result.getString("author");
         String publisher = result.getString("publisher");
         int publishedDate = result.getInt("published_date");
         String genre = result.getString("genre");
         boolean isFavorite = result.getBoolean("is_favorite");
 
-        Book book = new Book(id, title, author, publisher, publishedDate, genre, isFavorite);
+        Book book = new Book(id, title, summary, author, publisher, publishedDate, genre, isFavorite);
         bookList.add(book);
       }
 
@@ -111,13 +115,14 @@ public class BookDB extends DB {
       while(result.next()) {
         int id = result.getInt("id");
         String title = result.getString("title");
+        String summary = result.getString("summary");
         String author = result.getString("author");
         String publisher = result.getString("publisher");
         int publishedDate = result.getInt("published_date");
         String genre = result.getString("genre");
         boolean isFavorite = result.getBoolean("is_favorite");
 
-        Book book = new Book(id, title, author, publisher, publishedDate, genre, isFavorite);
+        Book book = new Book(id, title, summary, author, publisher, publishedDate, genre, isFavorite);
         bookList.add(book);
       }
 
@@ -157,18 +162,17 @@ public class BookDB extends DB {
       while(result.next()) {
         int bId = result.getInt("id");
         String bTitle = result.getString("title");
+        String bSummary = result.getString("summary");
         String bAuthor = result.getString("author");
         String bPublisher = result.getString("publisher");
         int bPublishedDate = result.getInt("published_date");
         String bGenre = result.getString("genre");
-
-        // book_id is a field in favorites table. It exists here because of LEFT JOIN.
-        result.getInt("book_id");
-        boolean isFavorite = !result.wasNull();
+        boolean isFavorite = result.getBoolean("is_favorite");
 
         Book book = new Book(
           bId,
           bTitle,
+          bSummary,
           bAuthor,
           bPublisher,
           bPublishedDate,
@@ -181,8 +185,10 @@ public class BookDB extends DB {
 
     } catch(SQLException e) {
       e.printStackTrace();
+    } finally {
+      closeConnection();
     }
-    closeConnection();
+
     return bookList;
   }
 

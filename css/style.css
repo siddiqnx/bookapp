@@ -165,3 +165,7 @@ a {
 #favorites {
   margin-top: 40px;
 }
+
+#books-table tr {
+  cursor: pointer;
+}

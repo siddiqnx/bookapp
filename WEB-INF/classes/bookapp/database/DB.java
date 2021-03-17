@@ -22,6 +22,7 @@ public class DB {
 
   private void setConnection() {
     try {
+      Class.forName("org.postgresql.Driver");
       connection = DriverManager.getConnection(
         Config.DB_URL,
         Config.DB_USERNAME,
@@ -29,6 +30,8 @@ public class DB {
       );
     } catch(SQLException e) {
       System.out.println("Error connecting to DB");
+      e.printStackTrace();
+    } catch(ClassNotFoundException e) {
       e.printStackTrace();
     }
   }
