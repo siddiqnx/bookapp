@@ -108,6 +108,10 @@ a {
   margin-bottom: 0;
 }
 
+.tab-bar {
+  margin-bottom: 30px;
+}
+
 .tabs .tab a {
   color: var(--color-accent);
 }
@@ -130,7 +134,8 @@ a {
 }
 
 .search-container {
-  margin-top: 30px;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 .hide {
@@ -163,9 +168,41 @@ a {
 }
 
 #favorites {
-  margin-top: 40px;
+  margin-top: 10px;
+}
+
+#books-table th {
+  color: var(--color-accent);
 }
 
 #books-table tr {
   cursor: pointer;
+}
+
+.genre-custom-input .input-field {
+  margin-top: 0;
+}
+
+#library h5 {
+  margin: 40px 24px 24px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.pagination li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.pagination li.active {
+  background-color: var(--color-accent);
+}
+
+#add-to-collection-modal {
+  overflow-y: visible;
 }

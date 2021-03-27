@@ -22,9 +22,9 @@ public class BookSearch extends HttpServlet {
 
     BookDB db = new BookDB();
     ElasticSearch es = new ElasticSearch();
-    
+
     HttpSession session = request.getSession();
-    
+
     String title = request.getParameter("title");
     String keywords = request.getParameter("keywords");
     String author = request.getParameter("author");
@@ -56,7 +56,7 @@ public class BookSearch extends HttpServlet {
       }
     }
 
-    request.setAttribute("bookList", searchResult);
+    request.setAttribute("books", searchResult);
 		request.getRequestDispatcher("/bookapp").forward(request, response);
 	}
 }

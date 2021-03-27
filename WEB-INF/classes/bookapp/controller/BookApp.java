@@ -15,11 +15,7 @@ public class BookApp extends HttpServlet{
     HttpServletRequest request,
     HttpServletResponse response
   ) throws ServletException, IOException {
-    List<Book> books = (List<Book>)request.getAttribute("bookList");
-    List<Book> favorites = (List<Book>)request.getAttribute("favoriteList");
 
-    request.setAttribute("books", books);
-    request.setAttribute("favorites", favorites);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 }

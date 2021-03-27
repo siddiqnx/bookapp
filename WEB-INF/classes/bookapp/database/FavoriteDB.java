@@ -8,8 +8,6 @@ import bookapp.*;
 import bookapp.bean.*;
 import bookapp.Config;
 
-import bookapp.util.Command;
-
 public class FavoriteDB extends DB {
 
   public static List<String> FAVORITE_FIELDS = Arrays.asList(
@@ -62,7 +60,7 @@ public class FavoriteDB extends DB {
   public List<Book> getUserFavorites() {
     String query = DBQueries.GET_USER_FAVORITES(userId);
     List<Book> bookList = new ArrayList<Book>();
-    
+
     try {
       Statement statement = connection.createStatement();
 
@@ -75,13 +73,14 @@ public class FavoriteDB extends DB {
         String author = result.getString("author");
         String publisher = result.getString("publisher");
         int publishedDate = result.getInt("published_date");
+        int genreId = result.getInt("genre_id");
         String genre = result.getString("genre");
         boolean isFavorite = true;
 
-        Book book = new Book(id, title, summary, author, publisher, publishedDate, genre, isFavorite);
+        Book book = new Book(id, title, summary, author, publisher, publishedDate, genreId, genre, isFavorite);
         bookList.add(book);
       }
-     
+
     } catch(SQLException e) {
       e.printStackTrace();
     } finally {

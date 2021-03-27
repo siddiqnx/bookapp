@@ -91,4 +91,40 @@
     <url-pattern>/favorites/delete</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>AddCollection</servlet-name>
+    <servlet-class>bookapp.controller.CollectionAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddCollection</servlet-name>
+    <url-pattern>/collections/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RequestCollectionAccess</servlet-name>
+    <servlet-class>bookapp.controller.CollectionAccessRequest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RequestCollectionAccess</servlet-name>
+    <url-pattern>/collections/request</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AllowCollectionAccess</servlet-name>
+    <servlet-class>bookapp.controller.CollectionAccess</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AllowCollectionAccess</servlet-name>
+    <url-pattern>/collections/action</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DeleteCollectionBook</servlet-name>
+    <servlet-class>bookapp.controller.CollectionBookDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteCollectionBook</servlet-name>
+    <url-pattern>/collections/books/delete</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

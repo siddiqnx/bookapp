@@ -8,8 +8,6 @@ import bookapp.*;
 import bookapp.bean.Book;
 import bookapp.Config;
 
-import bookapp.util.Command;
-
 public class BookDB extends DB {
 
   public static List<String> BOOK_FIELDS = Arrays.asList(
@@ -18,7 +16,7 @@ public class BookDB extends DB {
     "author",
     "publisher",
     "published_date",
-    "genre"
+    "genre_id"
   );
   public static String ASC = "ASC";
   public static String DESC = "DESC";
@@ -31,7 +29,7 @@ public class BookDB extends DB {
       book.author,
       book.publisher,
       String.valueOf(book.publishedDate),
-      book.genre
+      String.valueOf(book.genreId)
     );
 
     try {
@@ -70,8 +68,8 @@ public class BookDB extends DB {
     return true;
   }
 
-  public List<Book> getAllBooks() {
-    String query = DBQueries.GET_ALL_BOOKS(userId);
+  public List<Book> getAllBooks(Integer offset, Integer limit) {
+    String query = DBQueries.GET_ALL_BOOKS(userId, offset, limit);
     List<Book> bookList = new ArrayList<Book>();
 
     try {
@@ -86,10 +84,11 @@ public class BookDB extends DB {
         String author = result.getString("author");
         String publisher = result.getString("publisher");
         int publishedDate = result.getInt("published_date");
+        int genreId = result.getInt("genre_id");
         String genre = result.getString("genre");
         boolean isFavorite = result.getBoolean("is_favorite");
 
-        Book book = new Book(id, title, summary, author, publisher, publishedDate, genre, isFavorite);
+        Book book = new Book(id, title, summary, author, publisher, publishedDate, genreId, genre, isFavorite);
         bookList.add(book);
       }
 
@@ -102,10 +101,10 @@ public class BookDB extends DB {
     return bookList;
   }
 
-  public List<Book> getAllBooksSorted(String field, String order) {
+  public List<Book> getAllBooksSorted(String field, String order, Integer offset, Integer limit) {
     List<Book> bookList = new ArrayList<Book>();
 
-    String query = DBQueries.GET_ALL_BOOKS_SORTED(userId, field, order);
+    String query = DBQueries.GET_ALL_BOOKS_SORTED(userId, field, order, offset, limit);
 
     try {
       Statement statement = connection.createStatement();
@@ -119,10 +118,11 @@ public class BookDB extends DB {
         String author = result.getString("author");
         String publisher = result.getString("publisher");
         int publishedDate = result.getInt("published_date");
+        int genreId = result.getInt("genre_id");
         String genre = result.getString("genre");
         boolean isFavorite = result.getBoolean("is_favorite");
 
-        Book book = new Book(id, title, summary, author, publisher, publishedDate, genre, isFavorite);
+        Book book = new Book(id, title, summary, author, publisher, publishedDate, genreId, genre, isFavorite);
         bookList.add(book);
       }
 
@@ -166,6 +166,7 @@ public class BookDB extends DB {
         String bAuthor = result.getString("author");
         String bPublisher = result.getString("publisher");
         int bPublishedDate = result.getInt("published_date");
+        int bGenreId = result.getInt("genre_id");
         String bGenre = result.getString("genre");
         boolean isFavorite = result.getBoolean("is_favorite");
 
@@ -176,6 +177,7 @@ public class BookDB extends DB {
           bAuthor,
           bPublisher,
           bPublishedDate,
+          bGenreId,
           bGenre,
           isFavorite
         );
@@ -190,6 +192,23 @@ public class BookDB extends DB {
     }
 
     return bookList;
+  }
+  
+  public Integer getBooksCount() {
+    String query = DBQueries.GET_BOOKS_COUNT();
+
+    try {
+      Statement statement = connection.createStatement();
+      ResultSet result = statement.executeQuery(query);
+
+      if(result.next()) {
+        return result.getInt(1);
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    }
+
+    return -1;
   }
 
 }

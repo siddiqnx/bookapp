@@ -7,6 +7,7 @@ public class Book {
   public String author;
   public String publisher;
   public int publishedDate;
+  public int genreId;
   public String genre;
   public boolean isFavorite;
   
@@ -17,6 +18,7 @@ public class Book {
     String author,
     String publisher,
     int publishedDate,
+    int genreId,
     String genre,
     boolean isFavorite
   ) {
@@ -26,6 +28,7 @@ public class Book {
     this.author = author;
     this.publisher = publisher;
     this.publishedDate = publishedDate;
+    this.genreId = genreId;
     this.genre = genre;
     this.isFavorite = isFavorite;
   }
@@ -35,6 +38,7 @@ public class Book {
     String author,
     String publisher,
     int publishedDate,
+    int genreId,
     String genre,
     boolean isFavorite
   ) {
@@ -43,6 +47,7 @@ public class Book {
     this.author = author;
     this.publisher = publisher;
     this.publishedDate = publishedDate;
+    this.genreId = genreId;
     this.genre = genre;
     this.isFavorite = isFavorite;
   }
@@ -93,6 +98,14 @@ public class Book {
 
   public void setPublishedDate(int publishedDate) {
     this.publishedDate = publishedDate;
+  }
+  
+  public int getGenreId() {
+    return genreId;
+  }
+  
+  public void setGenreId(int genreId) {
+    this.genreId = genreId;
   }
   
   public String getGenre() {

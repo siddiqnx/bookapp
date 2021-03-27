@@ -8,8 +8,6 @@ import bookapp.*;
 import bookapp.bean.Book;
 import bookapp.Config;
 
-import bookapp.util.Command;
-
 public class DB {
   protected Connection connection;
   protected Integer userId;
