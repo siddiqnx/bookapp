@@ -38,6 +38,7 @@
 
     <script src="${path}/js/materialize.min.js"></script>
     <script src="${path}/js/script.js" defer></script>
-    
+    <script src="${path}/js/pagination.js" defer></script>
+
   </body>
 </html>

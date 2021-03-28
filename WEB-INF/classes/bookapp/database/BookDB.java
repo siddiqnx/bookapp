@@ -68,8 +68,8 @@ public class BookDB extends DB {
     return true;
   }
 
-  public List<Book> getAllBooks(Integer offset, Integer limit) {
-    String query = DBQueries.GET_ALL_BOOKS(userId, offset, limit);
+  public List<Book> getAllBooks() {
+    String query = DBQueries.GET_ALL_BOOKS(userId);
     List<Book> bookList = new ArrayList<Book>();
 
     try {
@@ -101,10 +101,10 @@ public class BookDB extends DB {
     return bookList;
   }
 
-  public List<Book> getAllBooksSorted(String field, String order, Integer offset, Integer limit) {
+  public List<Book> getAllBooksSorted(String field, String order) {
     List<Book> bookList = new ArrayList<Book>();
 
-    String query = DBQueries.GET_ALL_BOOKS_SORTED(userId, field, order, offset, limit);
+    String query = DBQueries.GET_ALL_BOOKS_SORTED(userId, field, order);
 
     try {
       Statement statement = connection.createStatement();

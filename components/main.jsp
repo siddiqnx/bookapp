@@ -11,7 +11,7 @@
   else order = "asc";
 %>
 
-<main id="books-table-container" class="col <%= (role != null && role.equals("admin")) ? "s9" : "s12" %>">
+<main class="col <%= (role != null && role.equals("admin")) ? "s9" : "s12" %>">
   <!-- Tabs -->
   <div class="row">
     <div class="col s12 tab-bar">
@@ -22,13 +22,13 @@
       </ul>
     </div>
     <div id="all-books" class="col s12">
-      
+
       <jsp:include page="search.jsp" />
-      
+
       <div class="add-collection-container hide row">
         <form action="${path}/collections/add" id="add-collection" method="GET">
-          <div class="row valign-wrapper">
-          <div class="col s6"></div>
+          <div class="row valign-wrapper add-collection-row">
+            <div class="col s6"></div>
             <div class="valign input-field col s3 right">
               <input name="collection_name" id="collection-name" type="text" class="validate">
               <label for="collection-name">Collection Name</label>
@@ -40,8 +40,8 @@
         </form>
       </div>
       
-      <div class="row">
-        <table id="books-table" class="col s12">
+      <div class="books-table-container row">
+        <table id="books-table" class="col s12 paginate">
           <thead>
             <tr>
                 <th></th>
@@ -100,36 +100,12 @@
           </tbody>
         </table>
         <ul class="pagination col s12">
-          <c:choose>
-            <c:when test="${currentPageNum != 1}">
-                <li class="waves-effect"><a href="${path}/books?page=${currentPageNum - 1}"><img src="${path}/images/chevron_left.svg"></a></li>
-            </c:when>
-            <c:otherwise>
-                <li class="disabled"><a href="#!"><img src="${path}/images/chevron_left.svg"></a></li>
-            </c:otherwise>
-          </c:choose>
-          
-          <c:forEach begin="1" end="${numPages}" var="i">
-            <c:choose>
-                <c:when test="${currentPageNum == i}">
-                    <li class="active"><a href="#!">${i}</a></li>
-                </c:when>
-                <c:otherwise>
-                    <li class="waves-effect"><a href="${path}/books?page=${i}">${i}</a></li>
-                </c:otherwise>
-            </c:choose>
-          </c:forEach>
-          
-          <c:choose>
-            <c:when test="${currentPageNum != numPages}">
-                <li class="waves-effect"><a href="${path}/books?page=${Integer.parseInt(currentPageNum) + 1}"><img src="${path}/images/chevron_right.svg"></a></li>
-            </c:when>
-            <c:otherwise>
-                <li class="disabled"><a href="#!"><img src="${path}/images/chevron_right.svg"></a></li>
-            </c:otherwise>
-          </c:choose>
-        </ul>
 
+          <li class="waves-effect prev-page"><a href="#"><img src="${path}/images/chevron_left.svg"></a></li>
+
+          <li class="waves-effect next-page"><a href="#"><img src="${path}/images/chevron_right.svg"></a></li>
+
+        </ul>
       </div>
     </div>
 

@@ -138,6 +138,10 @@ a {
   margin-bottom: 0;
 }
 
+.add-collection-row {
+  margin-bottom: 10px;
+}
+
 .hide {
   display: hidden;
 }

@@ -48,23 +48,19 @@ public class DBQueries {
     return query;
   }
 
-  public static String GET_ALL_BOOKS(Integer userId, Integer offset, Integer limit) {
+  public static String GET_ALL_BOOKS(Integer userId) {
     String query = COMBINE_BOOKS_AND_FAVORITES(userId);
     query +=
-      "ORDER BY b.id DESC " +
-      "OFFSET " + offset + " " +
-      "LIMIT " + limit;
+      "ORDER BY b.id DESC";
 
     return query;
   }
 
-  public static String GET_ALL_BOOKS_SORTED(Integer userId, String field, String order, Integer offset, Integer limit) {
+  public static String GET_ALL_BOOKS_SORTED(Integer userId, String field, String order) {
     String query = COMBINE_BOOKS_AND_FAVORITES(userId);
     query +=
       "ORDER BY " +
-      field + " " + order + " " +
-      "OFFSET " + offset + " " +
-      "LIMIT " + limit;
+      field + " " + order;
 
     return query;
   }

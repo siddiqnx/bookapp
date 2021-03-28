@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const tabEl = document.querySelector('.tabs');
-  const bookTable = document.querySelector('#books-table');
+  const booksTable = document.querySelector('#books-table');
+  const booksTableBody = booksTable.querySelector('tbody');
   const selectEls = document.querySelectorAll('select');
   const summaryModalEl = document.querySelector('#summary-modal');
   const genreSelect = document.querySelector('.genre-select');
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const collectionSelect = document.querySelector('.collection-select');
   const addCollectionContainer = document.querySelector('.add-collection-container');
   const addCollectionForm = document.querySelector('#add-collection');
+  const searchContainer = document.querySelector('.search-container');
 
   M.Tabs.init(tabEl, {duration: 300});
   M.Modal.init(summaryModalEl);
@@ -19,14 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const summaryModal = M.Modal.getInstance(summaryModalEl);
 
-  bookTable.addEventListener('click', (e) => {
+  booksTable.addEventListener('click', (e) => {
     if(e.target.classList.contains('book-checkbox')) {
-
+      console.log([...addCollectionForm.selected_books].filter(x => x.checked));
       const isAtleastOneChecked = [...addCollectionForm.selected_books].some(x => x.checked);
       if(isAtleastOneChecked) {
         addCollectionContainer.classList.remove('hide');
+        searchContainer.classList.add('hide');
       } else {
         addCollectionContainer.classList.add('hide');
+        searchContainer.classList.remove('hide');
       }
       return;
     }
@@ -59,18 +63,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  collectionSelect.addEventListener('change', (e) => {
+  collectionSelect?.addEventListener('change', (e) => {
     if(e.target.value === '0') {
       collectionCustom.classList.remove('hide');
       collectionCustomInput.value ='';
     } else {
       collectionCustom.classList.add('hide');
-      collectionCustomInput.value = collectionSelect.options[genreSelect.selectedIndex].text;
+      collectionCustomInput.value = collectionSelect.options[collectionSelect.selectedIndex].text;
     }
   });
   
   addToCollectionBtn.addEventListener('click', (e) => {
     addToCollectionModal.open();
   });
-
+  
+  const bookRows = booksTableBody.querySelectorAll('tr');
 });
