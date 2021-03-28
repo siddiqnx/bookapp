@@ -175,7 +175,12 @@ a {
   margin-top: 10px;
 }
 
-#books-table th {
+.collection-more {
+  margin-left: auto;
+  opacity: 0.4;
+}
+
+#collection-books-table th {
   color: var(--color-accent);
 }
 

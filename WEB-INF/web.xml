@@ -101,6 +101,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>DeleteCollection</servlet-name>
+    <servlet-class>bookapp.controller.CollectionDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteCollection</servlet-name>
+    <url-pattern>/collections/delete</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>RequestCollectionAccess</servlet-name>
     <servlet-class>bookapp.controller.CollectionAccessRequest</servlet-class>
   </servlet>

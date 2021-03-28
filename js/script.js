@@ -13,11 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const addCollectionContainer = document.querySelector('.add-collection-container');
   const addCollectionForm = document.querySelector('#add-collection');
   const searchContainer = document.querySelector('.search-container');
+  const collectionMoreBtn = document.querySelector('.collection-more');
+  const dropdownEls = document.querySelectorAll('.dropdown-trigger');
+  const collapsible = document.querySelector('.collapsible');
 
   M.Tabs.init(tabEl, {duration: 300});
   M.Modal.init(summaryModalEl);
   M.FormSelect.init(selectEls);
   M.Collapsible.init(collapsibleEls);
+  M.Dropdown.init(dropdownEls);
 
   const summaryModal = M.Modal.getInstance(summaryModalEl);
 
@@ -76,6 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
   addToCollectionBtn.addEventListener('click', (e) => {
     addToCollectionModal.open();
   });
-  
+
+  collapsible?.addEventListener('click', (e) => {
+    console.log(e.target);
+    if(e.target.classList.contains('dropdown-trigger')) {
+      e.stopPropagation();
+    }
+  }, true);
+
   const bookRows = booksTableBody.querySelectorAll('tr');
 });

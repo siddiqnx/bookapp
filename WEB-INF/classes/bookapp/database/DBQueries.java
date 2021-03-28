@@ -228,6 +228,16 @@ public class DBQueries {
     return query;
   }
   
+  public static String DELETE_COLLECTION(Integer id) {
+    String query = 
+      "DELETE FROM " +
+      Config.DB_COLLECTIONS_TABLE + " " +
+      "WHERE " +
+      "id=" + String.valueOf(id);
+
+    return query;
+  }
+  
   public static String ADD_BOOKS_TO_COLLECTION() {
     String query = 
     "INSERT INTO " +

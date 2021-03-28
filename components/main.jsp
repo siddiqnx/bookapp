@@ -199,54 +199,81 @@
       <ul class="collapsible popout">
         <c:forEach items="${collections}" var="collection">
           <li>
-            <div class="collapsible-header">${collection.name}</div>
+            <div class="collapsible-header">
+              ${collection.name}
+
+            <c:if test="${role == 'admin'}">
+              <a 
+                class='dropdown-trigger collection-more'
+                href='#'
+                data-target='dropdown-${collection.id}'
+              >
+                <img src="${path}/images/more_vertical.svg" />
+              </a>
+
+              <ul id='dropdown-${collection.id}' class='dropdown-content'>
+                <li><a class="no-propagation" href="${path}/collections/delete?id=${collection.id}">Delete</a></li>
+              </ul>
+            </c:if>
+
+            </div>
             <div class="collapsible-body row">
-              <c:choose>
-              
-                <c:when test="${collection.access.equals('allow')}">
-                  <table id="books-table" class="col s12">
-                    <thead>
-                      <tr>
-                          <th>Title</th>
-                          <th>Author</th>
-                          <th>Publisher</th>
-                          <th>Published Date</th>
-                          <th>Genre</th>
-                      </tr>
-                    </thead>
+            <c:choose>
+            <c:when test="${collection.access.equals('allow')}">
+              <table id="collection-books-table" class="col s12">
+                <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>Publisher</th>
+                      <th>Published Date</th>
+                      <th>Genre</th>
+                  </tr>
+                </thead>
 
-                    <tbody>
+                <tbody>
+                <c:forEach items="${collection.books}" var="book">
                     
-                      <c:forEach items="${collection.books}" var="book">
-                        
-                        <tr id="${book.id}">
-                          <td class='title'>${book.title}</td>
-                          <td class='summary hide'>${book.summary}</td>
-                          <td>${book.author}</td>
-                          <td>${book.publisher}</td>
-                          <td>${book.publishedDate}</td>
-                          <td>${book.genre}</td>
-                          <c:if test="${role == 'admin'}">
-                            <td><a class='no-propagation' href="${path}/collections/books/delete?collectionId=${collection.id}&bookId=${book.id}"><img class="delete-icon" src="${path}/images/close.svg" ></a></td>
-                          </c:if>
-                        </tr>
+                  <tr id="${book.id}">
+                    <td class='title'>${book.title}</td>
+                    <td class='summary hide'>${book.summary}</td>
+                    <td>${book.author}</td>
+                    <td>${book.publisher}</td>
+                    <td>${book.publishedDate}</td>
+                    <td>${book.genre}</td>
+                    
+                  <c:if test="${role == 'admin'}">
+                    <td>
+                      <a 
+                        class='dropdown-trigger collection-more'
+                        href='#'
+                        data-target='cb-dropdown-${book.id}'
+                      >
+                        <img src="${path}/images/more_vertical.svg" />
+                      </a>
 
-                      </c:forEach>
-                    </tbody>
-                  </table>
-                </c:when>
-                
-                <c:when test="${collection.access.equals('request')}">
-                  You have requested access to this collection. Please wait for admin's approval.
-                </c:when>
-                
-                
-                <c:otherwise>
-                  <a href="${path}/collections/request?collectionId=${collection.id}" class="waves-effect waves-light btn">Request Access</a>
-                </c:otherwise>
-                
-              </c:choose>
+                      <ul id='cb-dropdown-${book.id}' class='dropdown-content'>
+                        <li><a href="${path}/collections/books/delete?collectionId=${collection.id}&bookId=${book.id}">Delete</a></li>
+                      </ul>
+                    </td>
+                  </c:if>
+                  </tr>
 
+                </c:forEach>
+                </tbody>
+              </table>
+            </c:when>
+            
+            <c:when test="${collection.access.equals('request')}">
+              You have requested access to this collection. Please wait for admin's approval.
+            </c:when>
+            
+            
+            <c:otherwise>
+              <a href="${path}/collections/request?collectionId=${collection.id}" class="waves-effect waves-light btn">Request Access</a>
+            </c:otherwise>
+
+            </c:choose>
             </div>
           </li>
         </c:forEach>

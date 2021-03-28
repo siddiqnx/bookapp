@@ -38,6 +38,25 @@ public class CollectionDB extends DB {
     return -1;
   }
   
+  public boolean deleteCollection(Integer id) {
+    String query = DBQueries.DELETE_COLLECTION(id);
+
+    try {
+      Statement statement = connection.createStatement();
+      int rows = statement.executeUpdate(query);
+
+      if(rows <= 0) {
+        return false;
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeConnection();
+    }
+
+    return true;
+  }
+  
   public boolean addBooksToCollection(Integer collectionId, List<Integer> bookIds) {
     String query = DBQueries.ADD_BOOKS_TO_COLLECTION();
 
