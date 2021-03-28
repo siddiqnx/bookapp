@@ -183,6 +183,38 @@ a {
   cursor: pointer;
 }
 
+#books-table tr > td:first-of-type {
+  width: 50px;
+}
+
+#books-table tr > td:nth-child(2) {
+    width: 300px;
+}
+
+#books-table tr > td:nth-child(4) {
+    width: 120px;
+}
+
+#books-table tr > td:nth-child(5) {
+    width: 100px;
+}
+
+#books-table tr > td:nth-child(6) {
+    width: 130px;
+}
+
+#books-table tr > td:nth-child(7) {
+    width: 160px;
+}
+
+#books-table tr > td:nth-last-child(2) {
+    width: 50px;
+}
+
+#books-table tr > td:last-of-type {
+    width: 34px;
+}
+
 .genre-custom-input .input-field {
   margin-top: 0;
 }
